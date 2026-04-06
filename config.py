@@ -1,0 +1,101 @@
+"""Game configuration and constants."""
+
+import pygame
+
+# Display
+CELL_SIZE = 16
+FONT_SIZE = 14
+GRID_WIDTH = 52
+GRID_HEIGHT = 39
+SCREEN_WIDTH = CELL_SIZE * GRID_WIDTH
+SCREEN_HEIGHT = CELL_SIZE * GRID_HEIGHT
+FPS = 60
+
+# Colors
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+BRIGHT_GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+RED = (255, 0, 0)
+CYAN = (0, 255, 255)
+MAGENTA = (255, 0, 255)
+WHITE = (255, 255, 255)
+DARK_GRAY = (50, 50, 50)
+
+# ASCII Characters
+CHAR_PLAYER_UP = "^"
+CHAR_PLAYER_DOWN = "v"
+CHAR_PLAYER_LEFT = "<"
+CHAR_PLAYER_RIGHT = ">"
+CHAR_ENEMY_UP = "A"
+CHAR_ENEMY_DOWN = "V"
+CHAR_ENEMY_LEFT = "["
+CHAR_ENEMY_RIGHT = "]"
+CHAR_BULLET = "*"
+CHAR_BRICK = "#"
+CHAR_STEEL = "@"
+CHAR_WATER = "~"
+CHAR_TREE = "%"
+CHAR_BASE = "&"
+CHAR_EXPLOSION = "X"
+CHAR_EMPTY = " "
+
+# Tile types
+TILE_EMPTY = 0
+TILE_BRICK = 1
+TILE_STEEL = 2
+TILE_WATER = 3
+TILE_TREE = 4
+TILE_BASE = 5
+
+# Directions
+DIR_UP = (0, -1)
+DIR_DOWN = (0, 1)
+DIR_LEFT = (-1, 0)
+DIR_RIGHT = (1, 0)
+
+# Player - frames per cell movement (lower = faster)
+PLAYER_MOVE_INTERVAL = 8
+PLAYER_SHOOT_COOLDOWN = 20
+PLAYER_LIVES = 3
+
+# Enemy
+ENEMY_MOVE_INTERVAL = 12
+ENEMY_SHOOT_COOLDOWN = 90
+ENEMY_COUNT = 4
+ENEMY_MOVE_CHANGE_INTERVAL = 2000
+
+# Bullet
+BULLET_MOVE_INTERVAL = 3
+
+# Gamepad - 8bitDo SN30 Pro mappings (SDL2 gamecontrollerdb format)
+# The SN30 Pro is widely supported out of the box on Linux
+GAMEPAD_DEADZONE = 0.15
+
+# Button indices (may vary, these are common for SN30 Pro in DInput mode)
+GAMEPAD_BTN_A = 0
+GAMEPAD_BTN_B = 1
+GAMEPAD_BTN_X = 2
+GAMEPAD_BTN_Y = 3
+GAMEPAD_BTN_LB = 4
+GAMEPAD_BTN_RB = 5
+GAMEPAD_BTN_SELECT = 6
+GAMEPAD_BTN_START = 7
+GAMEPAD_BTN_HOME = 8
+GAMEPAD_BTN_L3 = 9
+GAMEPAD_BTN_R3 = 10
+
+# Axis indices
+GAMEPAD_AXIS_LEFT_X = 0
+GAMEPAD_AXIS_LEFT_Y = 1
+GAMEPAD_AXIS_RIGHT_X = 3
+GAMEPAD_AXIS_RIGHT_Y = 4
+GAMEPAD_AXIS_LT = 2
+GAMEPAD_AXIS_RT = 5
+
+# D-pad (usually hat 0)
+GAMEPAD_HAT_INDEX = 0
+GAMEPAD_HAT_UP = pygame.HAT_UP
+GAMEPAD_HAT_DOWN = pygame.HAT_DOWN
+GAMEPAD_HAT_LEFT = pygame.HAT_LEFT
+GAMEPAD_HAT_RIGHT = pygame.HAT_RIGHT

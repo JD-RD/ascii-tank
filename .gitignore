@@ -1,0 +1,6 @@
+# Byte-sized dependencies
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
