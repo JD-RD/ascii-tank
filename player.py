@@ -116,6 +116,8 @@ class Player:
             return None
 
         shoot_pressed = keys[pygame.K_SPACE]
+        if gamepad and gamepad.get_button(2):
+            shoot_pressed = True
 
         if shoot_pressed:
             self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN
