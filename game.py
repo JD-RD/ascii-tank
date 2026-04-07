@@ -127,6 +127,8 @@ class Game:
                     if self.gamepad:
                         if event.button == GAMEPAD_BTN_A or event.button == GAMEPAD_BTN_START:
                             self.state = "name_input"
+                        elif event.button == GAMEPAD_BTN_SELECT:
+                            self.state = "menu"
 
             self.clock.tick(FPS)
 
@@ -612,6 +614,8 @@ class Game:
                     if self.gamepad and event.button == GAMEPAD_BTN_A:
                         self.score = 0
                         self._start_level(0)
+                    elif self.gamepad and event.button == GAMEPAD_BTN_SELECT:
+                        self.state = "menu"
 
             self.clock.tick(FPS)
 
@@ -638,5 +642,7 @@ class Game:
                 if event.type == pygame.JOYBUTTONDOWN:
                     if self.gamepad and event.button == GAMEPAD_BTN_A:
                         self._start_level(self.level_num + 1)
+                    elif self.gamepad and event.button == GAMEPAD_BTN_SELECT:
+                        self.state = "menu"
 
             self.clock.tick(FPS)
