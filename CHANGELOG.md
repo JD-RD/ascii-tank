@@ -15,6 +15,8 @@
 - Power-up spawning system: speed boost, shield, extra life, and freeze enemies
 
 ### Fixed
+- Gamepad name input: A button now adds selected letter, START confirms
+- Gamepad button constants: removed duplicate entries in config.py
 - Enemy AI: base position now found on spawn (was previously lazy, could remain None)
 - Enemy AI: added direction change chance (30%) for more dynamic movement
 - Enemy AI: bullet avoidance now only checks player bullets (not own bullets)
@@ -24,7 +26,6 @@
 - Enemy AI: BFS fallback now finds nearest walkable tile toward target (better in maze levels)
 - Enemy AI: improved BFS to track best direction found so far (not just last direction)
 - Enemy shooting: removed duplicate shoot-on-wait-frame bug that fired 60 bullets/sec per enemy
-- Enemy shoot cooldown now properly enforced — enemies shoot once per cooldown cycle
 - Base tile overwritten by surrounding brick wall in level generation (skipped center cell)
 - Stereo audio array shape for pygame mixer (was 1D, now 2D stereo)
 - Level 2/3 generation: fixed raw tuple format for brick/steel/water/tile layout helpers

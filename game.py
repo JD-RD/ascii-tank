@@ -162,7 +162,7 @@ class Game:
             keyboard_y = SCREEN_HEIGHT - 60
             # Current selected letter
             current_char = letters[letter_index]
-            current_line = f"Select: {current_char} | Confirm: A/START"
+            current_line = f"Select: {current_char} | Add: A | Backspace: B | Confirm: START"
             key_surf = self.font_small.render(current_line, True, YELLOW)
             pygame.draw.rect(self.screen, DARK_GRAY, (0, keyboard_y - 5, SCREEN_WIDTH, 60), 2)
 
@@ -191,8 +191,12 @@ class Game:
                     elif len(name) < 4 and event.unicode.isalpha():
                         name += event.unicode.upper()
                 if event.type == pygame.JOYBUTTONDOWN:
-                    if self.gamepad and event.button in (GAMEPAD_BTN_A, GAMEPAD_BTN_START):
-                        if len(name) >= 1:
+                    if self.gamepad:
+                        if event.button == GAMEPAD_BTN_A and len(name) < 4:
+                            name += letters[letter_index]
+                        elif event.button == GAMEPAD_BTN_B:
+                            name = name[:-1]
+                        elif event.button == GAMEPAD_BTN_START and len(name) >= 1:
                             self.player_name = name[:4].upper()
                             self._start_level(0)
                 if event.type == pygame.JOYHATMOTION:
@@ -207,9 +211,6 @@ class Game:
                                 letter_index = (letter_index + 5) % len(letters)
                             elif hat[1] > 0:  # Up
                                 letter_index = (letter_index - 5) % len(letters)
-                        # Trigger backspace with home button or combo
-                if event.type == pygame.JOYBUTTONDOWN and event.button == GAMEPAD_BTN_B:
-                    name = name[:-1]
 
             self.clock.tick(FPS)
 

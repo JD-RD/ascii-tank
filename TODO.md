@@ -1,20 +1,20 @@
 # TODO
 
 ## High Priority
-- [ ] Fix enemy shooting logic (currently shoots too frequently in `enemy.py:update()`)
-- [ ] Add proper gamepad axis support (left stick) as alternative to D-Pad
-- [ ] Improve collision detection for bullets vs entities (currently exact grid match only)
-- [ ] Add sound effects for shooting, explosions, and enemy destruction
-- [ ] Add test suite with pytest
+- [x] Fix enemy shooting logic (shoots too frequently)
+- [x] Add proper gamepad axis support (left stick) as alternative to D-Pad
+- [x] Improve collision detection for bullets vs entities (proximity-based)
+- [x] Add sound effects for shooting, explosions, and enemy destruction
+- [x] Add test suite with pytest (43 tests covering Level, Player, Enemy, Bullet)
 
 ## Medium Priority
-- [ ] Add multiple levels with increasing difficulty
-- [ ] Add power-ups (speed boost, shield, extra lives)
-- [ ] Improve enemy AI (avoid getting stuck, better pathfinding)
-- [ ] Add base defense mechanic (game over if base is destroyed)
-- [ ] Add pause functionality (P key or Select button)
-- [ ] Add high score persistence
-- [ ] Refactor level generation to use data-driven approach (JSON/text files)
+- [x] Add base defense mechanic (game over if base is destroyed)
+- [x] Add pause functionality (P key or Select button)
+- [x] Add high score persistence
+- [x] Add multiple levels with increasing difficulty (3 levels)
+- [x] Refactor level generation to data-driven approach (_build_level + helpers)
+- [x] Improve enemy AI (BFS pathfinding, stuck detection, line-of-fire shooting)
+- [x] Add power-ups (speed boost, shield, extra lives, freeze enemies)
 
 ## Low Priority
 - [ ] Add animated sprites (multi-frame ASCII)
