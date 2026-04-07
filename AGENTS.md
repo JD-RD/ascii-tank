@@ -42,10 +42,9 @@ pip install -r requirements.txt
 ```
 
 ### Testing
-No test framework is currently set up. When adding tests, use `pytest`:
+Pytest test suite is set up (43 tests in `tests/test_game.py`):
 ```bash
 source venv/bin/activate
-pip install pytest
 pytest tests/          # Run all tests
 pytest tests/test_file.py  # Run single test file
 pytest tests/test_file.py::test_name  # Run single test

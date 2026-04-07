@@ -25,8 +25,8 @@ This ensures enemies always get a direction, even in tight steel mazes.
 
 ## Targeting
 
-- Level 1: All enemies chase player
-- Level 2+: 50% of enemies target the base (set in `game.py:_spawn_enemies`)
+- Level 1: 50% of enemies target the base
+- Level 2+: All enemies target the base (set in `game.py:_spawn_enemies`)
 - Base-targeting enemies have 70% chance to path toward base, 30% toward player
 
 ## Shooting

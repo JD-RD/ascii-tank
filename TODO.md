@@ -9,7 +9,7 @@
 
 ## Medium Priority
 - [x] Add base defense mechanic (game over if base is destroyed)
-- [x] Add pause functionality (P key or Select button)
+- [x] Add pause menu (P key, ESC, or Select button)
 - [x] Add high score persistence
 - [x] Add multiple levels with increasing difficulty (3 levels)
 - [x] Refactor level generation to data-driven approach (_build_level + helpers)

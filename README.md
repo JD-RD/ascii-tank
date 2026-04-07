@@ -10,11 +10,13 @@ A Battle City (NES) inspired tank game rendered entirely in ASCII characters. Bu
 
 - **ASCII graphics** — tanks, walls, bullets, and explosions rendered as single characters
 - **Keyboard controls** — WASD or Arrow keys to move, Space to shoot
-- **Gamepad support** — 8bitDo SN30 Pro (D-Pad + A button) works out of the box on Linux
+- **Gamepad support** — 8bitDo SN30 Pro works out of the box on Linux
 - **Destructible terrain** — brick walls crumble under fire, steel walls hold firm
 - **Enemy AI** — tanks that track your position and fire back
 - **Multiple tile types** — brick, steel, water (impassable), trees (concealment), and the base to defend
 - **Lives & scoring** — classic arcade-style gameplay loop
+- **Power-ups** — speed boost, shield, extra life, freeze enemies
+- **Leaderboard** — persistent top 10 scores with name entry
 
 ## Screenshots
 
@@ -62,9 +64,9 @@ pip install -r requirements.txt
 | Action | Keyboard | 8bitDo SN30 Pro |
 |--------|----------|-----------------|
 | Move | WASD / Arrow Keys | D-Pad |
-| Shoot | Space | A Button |
+| Shoot | Space | X Button |
 | Start Game | Enter | A / Start |
-| Pause | ESC | — |
+| Pause Menu | ESC or P | Select |
 
 ## Project Structure
 
@@ -91,6 +93,12 @@ ascii-tank/
 - **Single-char sprites** — each entity is one ASCII character fitting exactly one grid cell
 - **State machine** — `menu` → `playing` → `game_over` / `level_complete` → loop
 - **Exact collision** — grid position matching for bullet-to-entity hits
+
+## Name Entry & Leaderboard
+
+- Name entry appears before each new game (4 characters max, alpha-only for keyboard).
+- Gamepad name input uses a virtual keyboard: D-Pad to select letters, A to add, B to backspace, START to confirm.
+- Leaderboard shows top 10 scores saved in `highscore.json`.
 
 ## Contributing
 

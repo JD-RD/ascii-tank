@@ -352,6 +352,7 @@ class Game:
                 if event.type == pygame.JOYBUTTONDOWN:
                     if self.gamepad and event.button == GAMEPAD_BTN_SELECT:
                         self.paused = True
+                        self.state = "pause_menu"
 
             if self.player and self.player.active:
                 self.player.update(keys, self.level, self.gamepad)

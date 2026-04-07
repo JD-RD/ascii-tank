@@ -16,6 +16,7 @@
 
 ### Fixed
 - Gamepad name input: A button now adds selected letter, START confirms
+- Gamepad Select now opens pause menu during gameplay
 - Gamepad button constants: removed duplicate entries in config.py
 - Enemy AI: base position now found on spawn (was previously lazy, could remain None)
 - Enemy AI: added direction change chance (30%) for more dynamic movement
