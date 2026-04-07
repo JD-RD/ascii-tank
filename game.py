@@ -611,7 +611,7 @@ class Game:
                         self.score = 0
                         self._start_level(0)
                 if event.type == pygame.JOYBUTTONDOWN:
-                    if self.gamepad and event.button == GAMEPAD_BTN_A:
+                    if self.gamepad and event.button in (GAMEPAD_BTN_A, GAMEPAD_BTN_START):
                         self.score = 0
                         self._start_level(0)
                     elif self.gamepad and event.button == GAMEPAD_BTN_SELECT:
