@@ -45,6 +45,7 @@ pip install -r requirements.txt
 Pytest test suite is set up (43 tests in `tests/test_game.py`):
 ```bash
 source venv/bin/activate
+pip install pytest
 pytest tests/          # Run all tests
 pytest tests/test_file.py  # Run single test file
 pytest tests/test_file.py::test_name  # Run single test
@@ -100,7 +101,7 @@ No type annotations are currently used. If adding them:
 
 ### Gamepad (8bitDo SN30 Pro)
 - D-Pad is read via `joystick.get_hat(0)` (SDL hat events)
-- Shoot button is `joystick.get_button(0)` (A button)
+- Shoot button is `joystick.get_button(2)` (X button)
 - Start button (`GAMEPAD_BTN_START`) used for menu navigation
 - SN30 Pro works in DInput mode by default on Linux; no special driver needed
 
@@ -110,3 +111,6 @@ No type annotations are currently used. If adding them:
 - New levels: add factory function to `level.py`, append to `LEVELS` list
 - New game states: add branch in `Game.run()` and corresponding `_run_*` method
 - Enemy AI: see [AI.md](AI.md) for pathfinding behavior and common issues
+
+### Pause Menu
+- Pause menu is a state (`pause_menu`) triggered by `ESC`/`P` on keyboard or `GAMEPAD_BTN_SELECT` on gamepad
