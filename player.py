@@ -5,6 +5,7 @@ from config import (
     PLAYER_MOVE_INTERVAL,
     PLAYER_SHOOT_COOLDOWN,
     PLAYER_LIVES,
+    GAMEPAD_DEADZONE,
     DIR_UP,
     DIR_DOWN,
     DIR_LEFT,
@@ -22,6 +23,15 @@ class Player:
         self.shoot_cooldown = 0
         self.move_counter = 0
         self.active = True
+        self.shielded = False
+        self.shield_timer = 0
+        self.speed_boost = 0
+        self.base_move_interval = PLAYER_MOVE_INTERVAL
+
+    def get_move_interval(self):
+        if self.speed_boost > 0:
+            return max(2, self.base_move_interval // 2)
+        return self.base_move_interval
 
     def update(self, keys, level, gamepad=None):
         if not self.active:
@@ -30,8 +40,16 @@ class Player:
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1
 
+        if self.speed_boost > 0:
+            self.speed_boost -= 1
+
+        if self.shielded:
+            self.shield_timer -= 1
+            if self.shield_timer <= 0:
+                self.shielded = False
+
         self.move_counter += 1
-        if self.move_counter < PLAYER_MOVE_INTERVAL:
+        if self.move_counter < self.get_move_interval():
             return
 
         self.move_counter = 0
@@ -51,20 +69,40 @@ class Player:
             dx = 1
             self.direction = DIR_RIGHT
 
-        if gamepad and gamepad.get_numhats() > 0:
-            hat = gamepad.get_hat(0)
-            if hat[1] > 0:
-                dy = -1
-                self.direction = DIR_UP
-            elif hat[1] < 0:
-                dy = 1
-                self.direction = DIR_DOWN
-            elif hat[0] < 0:
-                dx = -1
-                self.direction = DIR_LEFT
-            elif hat[0] > 0:
-                dx = 1
-                self.direction = DIR_RIGHT
+        if gamepad:
+            if gamepad.get_numhats() > 0:
+                hat = gamepad.get_hat(0)
+                if hat[1] > 0:
+                    dy = -1
+                    self.direction = DIR_UP
+                elif hat[1] < 0:
+                    dy = 1
+                    self.direction = DIR_DOWN
+                elif hat[0] < 0:
+                    dx = -1
+                    self.direction = DIR_LEFT
+                elif hat[0] > 0:
+                    dx = 1
+                    self.direction = DIR_RIGHT
+
+            if gamepad.get_numaxes() >= 2:
+                axis_x = gamepad.get_axis(0)
+                axis_y = gamepad.get_axis(1)
+                if abs(axis_x) > GAMEPAD_DEADZONE or abs(axis_y) > GAMEPAD_DEADZONE:
+                    if abs(axis_x) > abs(axis_y):
+                        if axis_x < 0:
+                            dx = -1
+                            self.direction = DIR_LEFT
+                        else:
+                            dx = 1
+                            self.direction = DIR_RIGHT
+                    else:
+                        if axis_y < 0:
+                            dy = -1
+                            self.direction = DIR_UP
+                        else:
+                            dy = 1
+                            self.direction = DIR_DOWN
 
         if dx != 0 or dy != 0:
             new_x = self.x + dx
@@ -88,6 +126,10 @@ class Player:
         return None
 
     def hit(self):
+        if self.shielded:
+            self.shielded = False
+            self.shield_timer = 0
+            return
         self.lives -= 1
         if self.lives <= 0:
             self.active = False

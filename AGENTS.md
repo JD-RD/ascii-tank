@@ -110,3 +110,4 @@ No type annotations are currently used. If adding them:
 - New entity class: follow `active`/`x`/`y`/`direction`/`update()`/`hit()` pattern
 - New levels: add factory function to `level.py`, append to `LEVELS` list
 - New game states: add branch in `Game.run()` and corresponding `_run_*` method
+- Enemy AI: see [AI.md](AI.md) for pathfinding behavior and common issues

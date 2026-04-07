@@ -37,9 +37,10 @@ class Bullet:
         self.y += dy
 
         if level.is_shootable(self.x, self.y):
+            tile = level.get_tile(self.x, self.y)
             self.active = False
             if level.is_destroyable(self.x, self.y):
                 level.set_tile(self.x, self.y, TILE_EMPTY)
-            return "hit_wall", (self.x, self.y)
+            return "hit_wall", (self.x, self.y), tile
 
         return None

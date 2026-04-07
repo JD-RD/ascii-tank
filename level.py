@@ -43,13 +43,16 @@ class Level:
         return tile in (TILE_BRICK, TILE_BASE)
 
 
-def make_level_1():
-    """Create the first level - classic Battle City layout."""
+def _build_level(bricks, steels, waters, trees, base_protected=True):
+    """Build a level grid from layout lists.
+
+    Each layout entry: ((start_x, start_y), length, vertical=False)
+    """
     cols = GRID_WIDTH
     rows = GRID_HEIGHT
     grid = [[TILE_EMPTY] * cols for _ in range(rows)]
 
-    # Border walls (steel)
+    # Border walls
     for x in range(cols):
         grid[0][x] = TILE_STEEL
         grid[rows - 1][x] = TILE_STEEL
@@ -57,121 +60,42 @@ def make_level_1():
         grid[y][0] = TILE_STEEL
         grid[y][cols - 1] = TILE_STEEL
 
-    # Internal brick walls in a pattern
-    brick_layouts = [
-        # Horizontal walls
-        ((8, 6), 12, TILE_BRICK),
-        ((28, 6), 12, TILE_BRICK),
-        ((8, 14), 6, TILE_BRICK),
-        ((22, 14), 6, TILE_BRICK),
-        ((34, 14), 6, TILE_BRICK),
-        ((14, 22), 8, TILE_BRICK),
-        ((28, 22), 8, TILE_BRICK),
-        ((6, 30), 10, TILE_BRICK),
-        ((24, 30), 10, TILE_BRICK),
-        # Vertical walls
-        ((10, 8), 4, TILE_BRICK, True),
-        ((38, 8), 4, TILE_BRICK, True),
-        ((16, 16), 4, TILE_BRICK, True),
-        ((32, 16), 4, TILE_BRICK, True),
-        ((12, 24), 4, TILE_BRICK, True),
-        ((36, 24), 4, TILE_BRICK, True),
-    ]
-
-    for item in brick_layouts:
-        sx, sy = item[0]
-        length = item[1]
-        tile_type = item[2]
-        vertical = item[3] if len(item) > 3 else False
+    for sx, sy, length, tile_type, vertical in bricks:
         for i in range(length):
-            if vertical:
-                ny = sy + i
-                if ny < rows - 1:
-                    grid[ny][sx] = tile_type
-            else:
-                nx = sx + i
-                if nx < cols - 1:
-                    grid[sy][nx] = tile_type
+            nx, ny = (sx, sy + i) if vertical else (sx + i, sy)
+            if 0 < ny < rows - 1 and 0 < nx < cols - 1:
+                grid[ny][nx] = tile_type
 
-    # Steel obstacles
-    steel_layouts = [
-        ((20, 10), 4, TILE_STEEL),
-        ((26, 10), 4, TILE_STEEL),
-        ((18, 18), 2, TILE_STEEL, True),
-        ((30, 18), 2, TILE_STEEL, True),
-    ]
-
-    for item in steel_layouts:
-        sx, sy = item[0]
-        length = item[1]
-        tile_type = item[2]
-        vertical = item[3] if len(item) > 3 else False
+    for sx, sy, length, tile_type, vertical in steels:
         for i in range(length):
-            if vertical:
-                ny = sy + i
-                if ny < rows - 1:
-                    grid[ny][sx] = tile_type
-            else:
-                nx = sx + i
-                if nx < cols - 1:
-                    grid[sy][nx] = tile_type
+            nx, ny = (sx, sy + i) if vertical else (sx + i, sy)
+            if 0 < ny < rows - 1 and 0 < nx < cols - 1:
+                grid[ny][nx] = tile_type
 
-    # Water patches
-    water_layouts = [
-        ((4, 18), 4, TILE_WATER),
-        ((44, 18), 4, TILE_WATER),
-        ((20, 26), 8, TILE_WATER),
-    ]
-
-    for item in water_layouts:
-        sx, sy = item[0]
-        length = item[1]
-        tile_type = item[2]
-        vertical = item[3] if len(item) > 3 else False
+    for sx, sy, length, tile_type, vertical in waters:
         for i in range(length):
-            if vertical:
-                ny = sy + i
-                if ny < rows - 1:
-                    grid[ny][sx] = tile_type
-            else:
-                nx = sx + i
-                if nx < cols - 1:
-                    grid[sy][nx] = tile_type
+            nx, ny = (sx, sy + i) if vertical else (sx + i, sy)
+            if 0 < ny < rows - 1 and 0 < nx < cols - 1:
+                grid[ny][nx] = tile_type
 
-    # Tree patches
-    tree_layouts = [
-        ((14, 8), 4, TILE_TREE),
-        ((32, 8), 4, TILE_TREE),
-        ((10, 26), 6, TILE_TREE),
-        ((34, 26), 6, TILE_TREE),
-    ]
-
-    for item in tree_layouts:
-        sx, sy = item[0]
-        length = item[1]
-        tile_type = item[2]
-        vertical = item[3] if len(item) > 3 else False
+    for sx, sy, length, tile_type, vertical in trees:
         for i in range(length):
-            if vertical:
-                ny = sy + i
-                if ny < rows - 1:
-                    grid[ny][sx] = tile_type
-            else:
-                nx = sx + i
-                if nx < cols - 1:
-                    grid[sy][nx] = tile_type
+            nx, ny = (sx, sy + i) if vertical else (sx + i, sy)
+            if 0 < ny < rows - 1 and 0 < nx < cols - 1:
+                grid[ny][nx] = tile_type
 
-    # Base (protected by brick walls)
+    # Base
     base_x = cols // 2
     base_y = rows - 3
     grid[base_y][base_x] = TILE_BASE
-    # Brick wall around base
-    for dx in range(-2, 3):
-        grid[base_y][base_x + dx] = TILE_BRICK
-    grid[base_y - 1][base_x - 2] = TILE_BRICK
-    grid[base_y - 1][base_x + 2] = TILE_BRICK
+    if base_protected:
+        for dx in range(-2, 3):
+            if dx == 0:
+                continue
+            grid[base_y][base_x + dx] = TILE_BRICK
+        grid[base_y - 1][base_x - 2] = TILE_BRICK
+        grid[base_y - 1][base_x + 2] = TILE_BRICK
 
-    # Spawn points: player at bottom center, enemies at top
     spawn_points = {
         "player": (base_x, base_y + 1),
         "enemies": [
@@ -184,4 +108,115 @@ def make_level_1():
     return Level(grid, spawn_points)
 
 
-LEVELS = [make_level_1]
+def _b(sx, sy, length, vertical=False):
+    """Shorthand for brick layout entry: (sx, sy, length, tile_type, vertical)."""
+    return (sx, sy, length, TILE_BRICK, vertical)
+
+
+def _s(sx, sy, length, vertical=False):
+    """Shorthand for steel layout entry."""
+    return (sx, sy, length, TILE_STEEL, vertical)
+
+
+def _w(sx, sy, length, vertical=False):
+    """Shorthand for water layout entry."""
+    return (sx, sy, length, TILE_WATER, vertical)
+
+
+def _t(sx, sy, length, vertical=False):
+    """Shorthand for tree layout entry."""
+    return (sx, sy, length, TILE_TREE, vertical)
+
+
+def make_level_1():
+    """Level 1 - Open terrain, mostly brick walls."""
+    return _build_level(
+        bricks=[
+            _b(8, 6, 12), _b(28, 6, 12),
+            _b(8, 14, 6), _b(22, 14, 6), _b(34, 14, 6),
+            _b(14, 22, 8), _b(28, 22, 8),
+            _b(6, 30, 10), _b(24, 30, 10),
+            _b(10, 8, 4, True), _b(38, 8, 4, True),
+            _b(16, 16, 4, True), _b(32, 16, 4, True),
+            _b(12, 24, 4, True), _b(36, 24, 4, True),
+        ],
+        steels=[
+            _s(20, 10, 4), _s(26, 10, 4),
+            _s(18, 18, 2, True), _s(30, 18, 2, True),
+        ],
+        waters=[
+            _w(4, 18, 4), _w(44, 18, 4),
+            _w(20, 26, 8),
+        ],
+        trees=[
+            _t(14, 8, 4), _t(32, 8, 4),
+            _t(10, 26, 6), _t(34, 26, 6),
+        ],
+    )
+
+
+def make_level_2():
+    """Level 2 - Steel maze, tighter corridors."""
+    return _build_level(
+        bricks=[
+            _b(6, 5, 8), _b(20, 5, 8), _b(34, 5, 8),
+            _b(10, 12, 6), _b(30, 12, 6),
+            _b(4, 20, 10), _b(36, 20, 10),
+            _b(16, 28, 6), _b(28, 28, 6),
+        ],
+        steels=[
+            _s(14, 5, 6), _s(28, 5, 6),
+            _s(6, 12, 4), _s(38, 12, 4),
+            _s(18, 18, 4), _s(28, 18, 4),
+            _s(12, 24, 4, True), _s(34, 24, 4, True),
+            _s(22, 8, 4, True), _s(26, 8, 4, True),
+            _s(8, 28, 4, True), _s(40, 28, 4, True),
+        ],
+        waters=[
+            _w(2, 15, 6), _w(42, 15, 6),
+            _w(18, 32, 12),
+        ],
+        trees=[
+            _t(20, 14, 8),
+            _t(6, 32, 6), _t(38, 32, 6),
+        ],
+    )
+
+
+def make_level_3():
+    """Level 3 - Fortress, heavy steel, open kill zones."""
+    return _build_level(
+        bricks=[
+            _b(4, 4, 6), _b(40, 4, 6),
+            _b(10, 10, 4), _b(36, 10, 4),
+            _b(6, 18, 8), _b(36, 18, 8),
+            _b(14, 26, 4), _b(32, 26, 4),
+            _b(4, 32, 6), _b(40, 32, 6),
+            _b(8, 6, 4, True), _b(40, 6, 4, True),
+            _b(14, 14, 4, True), _b(34, 14, 4, True),
+            _b(10, 22, 4, True), _b(38, 22, 4, True),
+        ],
+        steels=[
+            _s(16, 4, 16),
+            _s(20, 10, 8),
+            _s(10, 16, 4), _s(36, 16, 4),
+            _s(22, 22, 4),
+            _s(18, 28, 12),
+            _s(12, 8, 4, True), _s(36, 8, 4, True),
+            _s(16, 16, 4, True), _s(32, 16, 4, True),
+            _s(8, 24, 4, True), _s(40, 24, 4, True),
+            _s(20, 30, 4, True), _s(28, 30, 4, True),
+        ],
+        waters=[
+            _w(2, 10, 4), _w(44, 10, 4),
+            _w(14, 20, 4), _w(32, 20, 4),
+        ],
+        trees=[
+            _t(22, 6, 4),
+            _t(4, 26, 4), _t(44, 26, 4),
+            _t(18, 34, 4), _t(28, 34, 4),
+        ],
+    )
+
+
+LEVELS = [make_level_1, make_level_2, make_level_3]
