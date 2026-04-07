@@ -100,6 +100,13 @@ ascii-tank/
 - Gamepad name input uses a virtual keyboard: D-Pad to select letters, A to add, B to backspace, START to confirm.
 - Leaderboard shows top 10 scores saved in `highscore.json`.
 
+## Power-Ups
+
+- `>>` Speed boost (faster movement for a short time)
+- `[]` Shield (blocks one hit)
+- `++` Extra life
+- `**` Freeze enemies (temporarily stops enemy movement)
+
 ## Contributing
 
 1. Fork the repo
