@@ -640,7 +640,7 @@ class Game:
                     if event.key in (pygame.K_RETURN, pygame.K_SPACE):
                         self._start_level(self.level_num + 1)
                 if event.type == pygame.JOYBUTTONDOWN:
-                    if self.gamepad and event.button == GAMEPAD_BTN_A:
+                    if self.gamepad and event.button in (GAMEPAD_BTN_A, GAMEPAD_BTN_START):
                         self._start_level(self.level_num + 1)
                     elif self.gamepad and event.button == GAMEPAD_BTN_SELECT:
                         self.state = "menu"
